@@ -28,7 +28,16 @@
             box-sizing: border-box;
             font-family: 'Inter', 'Segoe UI', 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
         }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
         
+        .logo span {
+            color: var(--accent-blue);
+        }
         body {
             background: linear-gradient(135deg, var(--primary-bg) 0%, var(--secondary-bg) 100%);
             color: var(--text-primary);
@@ -60,17 +69,7 @@
             padding: 0.8rem 5%;
             box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
         }
-        
-        .logo {
-            font-size: 1.8rem;
-            font-weight: 800;
-            letter-spacing: 1px;
-            background: linear-gradient(to right, #fff 0%, #aaa 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 2px 8px rgba(255, 255, 255, 0.1);
-        }
-        
+
         .nav-links {
             display: flex;
             gap: 2.5rem;
@@ -807,7 +806,7 @@
 <body>
     <!-- 导航栏 -->
     <nav class="navbar">
-        <div class="logo">MaxUnityX 2.0</div>
+        <div class="logo">MaxUnity<span>.</span></div>
         <div class="nav-links">
             <a href="#getting-started" class="active">开始使用</a>
             <a href="#start">前言</a>
