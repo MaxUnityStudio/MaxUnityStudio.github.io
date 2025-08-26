@@ -1,0 +1,913 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MUX2 - 插件 Addons</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+    <style>
+        :root {
+            --primary-bg: #0a0a0a;
+            --secondary-bg: #121212;
+            --card-bg: #1a1a1a;
+            --border-color: #333;
+            --highlight: #e0e0e0;
+            --text-primary: #f0f0f0;
+            --text-secondary: #aaa;
+            --accent: #4a4a4a;
+            --accent-blue: #4a86e8;
+            --accent-purple: #8e44ad;
+            --accent-green: #27ae60;
+            --accent-orange: #e67e22;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Segoe UI', 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--primary-bg) 0%, var(--secondary-bg) 100%);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+            min-height: 100vh;
+            padding: 0;
+            background-attachment: fixed;
+        }
+
+        /* 导航栏样式 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1.2rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+
+        .navbar.scrolled {
+            padding: 0.8rem 5%;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+        
+        .logo span {
+            color: var(--accent-blue);
+        }
+                .nav-tabs {
+            display: flex;
+            gap: 1.5rem;
+        }
+        
+        .tab-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+        
+        .tab-link:hover {
+            color: var(--text-primary);
+        }
+        
+        .tab-link.active {
+            color: var(--accent-blue);
+        }
+        
+        .tab-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--accent-blue);
+        }
+        
+
+        /* 背景视频/图片轮播 */
+        .video-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+        }
+
+        .video-background img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: blur(2px) brightness(0.7);
+            transition: filter 0.3s ease;
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(10,10,10,0.9) 30%, rgba(10,10,10,0.6) 70%, rgba(10,10,10,0) 100%);
+            z-index: -1;
+        }
+
+        /* 插件标题区域 */
+        .addons-header {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 0 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .addons-header::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(30, 30, 30, 0.8) 0%, rgba(10, 10, 10, 0.9) 70%);
+            z-index: -1;
+        }
+
+        .addons-header::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(80, 80, 80, 0.1) 0%, transparent 70%);
+            transform: translate(-50%, -50%);
+            z-index: -2;
+            animation: pulse 8s infinite alternate;
+        }
+
+        .addons-content {
+            max-width: 900px;
+            z-index: 1;
+        }
+
+        .addons-content h1 {
+            font-size: 4.5rem;
+            margin-bottom: 1.5rem;
+            letter-spacing: 2px;
+            background: linear-gradient(to right, #fff 0%, #aaa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: fadeInDown 1s ease;
+        }
+
+        .addons-content p {
+            font-size: 1.4rem;
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+            animation: fadeInUp 1s ease 0.2s forwards;
+            opacity: 0;
+            max-width: 700px;
+            margin: 0 auto 2.5rem;
+        }
+
+        /* 插件卡片区域 - 采用main-ds样式 */
+        .addons-section {
+            padding: 5rem 5%;
+            position: relative;
+            z-index: 1;
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            margin-bottom: 2.5rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid var(--border-color);
+        }
+
+        .section-number {
+            font-size: 2.8rem;
+            font-weight: 800;
+            color: var(--text-secondary);
+            margin-right: 1.2rem;
+            min-width: 60px;
+        }
+
+        .section-title {
+            font-size: 2.4rem;
+            font-weight: 700;
+            color: var(--text-primary);
+        }
+
+        .addons-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2.5rem;
+        }
+
+        /* 卡片样式 - 采用main-ds样式 */
+        .addon-card {
+            background: var(--card-bg);
+            border-radius: 16px;
+            overflow: hidden;
+            border: 1px solid var(--border-color);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            cursor: pointer;
+        }
+
+        .addon-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+
+        .addon-img {
+            height: 220px;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .addon-img img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .addon-card:hover .addon-img img {
+            transform: scale(1.05);
+        }
+
+        .addon-content {
+            padding: 2rem;
+        }
+
+        .addon-title {
+            font-size: 1.8rem;
+            margin-bottom: 1rem;
+            color: var(--text-primary);
+        }
+
+        .addon-desc {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+            font-size: 1.05rem;
+        }
+
+        .addon-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+
+        /* 模态框样式 - 采用main-ds样式 */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.8);
+            backdrop-filter: blur(10px);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 2000;
+            opacity: 0;
+            visibility: hidden;
+            transition: all 0.4s ease;
+        }
+
+        .modal-overlay.active {
+            opacity: 1;
+            visibility: visible;
+        }
+
+        .modal-container {
+            background: var(--card-bg);
+            width: 90%;
+            max-width: 1000px;
+            border-radius: 16px;
+            overflow: hidden;
+            display: flex;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            transform: scale(0.9);
+            opacity: 0;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            border: 1px solid var(--border-color);
+        }
+
+        .modal-overlay.active .modal-container {
+            transform: scale(1);
+            opacity: 1;
+        }
+
+        .modal-content {
+            flex: 1;
+            padding: 2.5rem;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-gallery {
+            flex: 1;
+            position: relative;
+            background: #0f0f0f;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .gallery-image {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+            opacity: 0;
+            transition: opacity 0.5s ease;
+        }
+
+        .gallery-image.active {
+            opacity: 1;
+        }
+
+        .gallery-nav {
+            position: absolute;
+            width: 100%;
+            display: flex;
+            justify-content: space-between;
+            padding: 0 1.5rem;
+            z-index: 5;
+        }
+
+        .nav-btn {
+            width: 45px;
+            height: 45px;
+            background: var(--accent-blue); /* 改为实心蓝色按钮 */
+            color: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(74, 134, 232, 0.4);
+        }
+
+        .nav-btn:hover {
+            transform: scale(1.1);
+            background: #3a76d8; /* 深一点的蓝色 */
+            box-shadow: 0 7px 20px rgba(74, 134, 232, 0.6);
+        }
+
+        .modal-title {
+            font-size: 2.8rem;
+            margin-bottom: 1.5rem;
+            color: var(--text-primary);
+        }
+
+        .modal-desc {
+            color: var(--text-secondary);
+            font-size: 1.1rem;
+            line-height: 1.7;
+            flex-grow: 1;
+            margin-bottom: 2rem;
+        }
+
+        .btn-get {
+            display: inline-flex;
+            align-items: center;
+            background: var(--accent-blue); /* 改为实心蓝色按钮 */
+            color: white;
+            border: none;
+            padding: 0.9rem 2.5rem;
+            font-size: 1.1rem;
+            font-weight: 600;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            align-self: flex-start;
+            box-shadow: 0 5px 15px rgba(74, 134, 232, 0.4);
+        }
+
+        .btn-get:hover {
+            background: #3a76d8; /* 深一点的蓝色 */
+            transform: translateY(-2px);
+            box-shadow: 0 7px 20px rgba(74, 134, 232, 0.6);
+        }
+
+        .btn-get i {
+            margin-left: 0.5rem;
+            transition: transform 0.3s ease;
+        }
+
+        .btn-get:hover i {
+            transform: translateX(3px);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 1.5rem;
+            right: 1.5rem;
+            width: 40px;
+            height: 40px;
+            background: var(--accent-blue); /* 改为实心蓝色按钮 */
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            z-index: 10;
+            box-shadow: 0 5px 15px rgba(74, 134, 232, 0.4);
+        }
+
+        .modal-close:hover {
+            background: #3a76d8; /* 深一点的蓝色 */
+            transform: rotate(90deg);
+            box-shadow: 0 7px 20px rgba(74, 134, 232, 0.6);
+        }
+
+        /* 语言切换按钮 */
+        .lang-switcher {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            display: flex;
+            gap: 1rem;
+            z-index: 1000;
+            animation: fadeIn 0.5s ease;
+        }
+        .copyright {
+            width: 100%;
+            text-align: center;
+            padding-top: 2rem;
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+        }
+        .lang-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: transparent;
+            color: var(--text-primary);
+            border: 1px solid var(--border-color);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            font-size: 1rem;
+            backdrop-filter: blur(5px);
+        }
+
+        .lang-btn:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            border-color: var(--text-secondary);
+        }
+
+        .lang-btn.active {
+            background: var(--accent-blue);
+            color: var(--primary-bg);
+            border-color: var(--accent-blue);
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(74, 134, 232, 0.3);
+        }
+
+        /* 动画效果 */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes pulse {
+            0% {
+                opacity: 0.1;
+            }
+            100% {
+                opacity: 0.2;
+            }
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 992px) {
+            .modal-container {
+                flex-direction: column;
+            }
+            
+            .modal-gallery {
+                height: 40%;
+                border-top: 1px solid var(--border-color);
+            }
+        }
+
+        @media (max-width: 768px) {
+            .addons-content h1 {
+                font-size: 3.2rem;
+            }
+            
+            .addons-content p {
+                font-size: 1.2rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+            
+            .modal-title {
+                font-size: 2.2rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-links {
+                gap: 1.5rem;
+                font-size: 0.9rem;
+            }
+            
+            .addons-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .section-title {
+                font-size: 1.8rem;
+            }
+            
+            .addon-content {
+                padding: 1.5rem;
+            }
+            
+            .modal-content {
+                padding: 1.5rem;
+            }
+            
+            .modal-title {
+                font-size: 1.8rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 顶部导航栏 -->
+    <nav class="navbar">
+        <a href="index.html" class="logo">MaxUnity<span>.</span></a>
+        <div class="nav-tabs">
+            <a href="index.html" class="tab-link active">主页 Home</a>
+            <a href="addons.html" class="tab-link">插件 Addons</a>
+            <a href="mux2.html" class="tab-link">MUX2</a>
+            <a href="animation.html" class="tab-link">动画 Animations</a>
+        </div>
+    </nav>
+
+    <!-- 背景图片轮播 -->
+    <div class="video-background">
+        <img src="addon/cover01.png" alt="背景图">
+    </div>
+    <div class="video-overlay"></div>
+
+    <!-- 插件标题区域 -->
+    <section class="addons-header">
+        <div class="addons-content">
+            <h1 data-i18n="addons-title">插件 Addons</h1>
+            <p data-i18n="addons-desc">精选的Unity插件，增强您的开发体验</p>
+        </div>
+    </section>
+
+    <!-- 插件卡片区域 -->
+    <section class="addons-section">
+        <div class="section-header">
+            <h2 class="section-title" data-i18n="available-addons">可用插件</h2>
+        </div>
+        
+        <div class="addons-grid">
+            <!-- Timeline+ 插件卡片 -->
+            <div class="addon-card" data-addon-id="timeline-plus">
+                <div class="addon-img">
+                    <img src="addon/tlplus.png" alt="Timeline+ 插件">
+                </div>
+                <div class="addon-content">
+                    <h3 class="addon-title" data-i18n="timeline-plus-title">Timeline+</h3>
+                    <p class="addon-desc" data-i18n="timeline-plus-desc">增强Timeline功能，提供更灵活的动画控制</p>
+                    <div class="addon-meta">
+                        <span>版本: 1.0.0</span>
+                        <span>适用于: Unity2021+</span>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Timeline Shader Track 插件卡片 -->
+            <div class="addon-card" data-addon-id="timeline-shader">
+                <div class="addon-img">
+                    <img src="addon/tlst.png" alt="Timeline Shader Track 插件">
+                </div>
+                <div class="addon-content">
+                    <h3 class="addon-title" data-i18n="timeline-shader-title">Timeline Shader Track</h3>
+                    <p class="addon-desc" data-i18n="timeline-shader-desc">在Timeline中直接控制材质和着色器参数</p>
+                    <div class="addon-meta">
+                        <span>版本: 1.0.0</span>
+                        <span>适用于: Unity2021+</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline+ 模态框 -->
+    <div class="modal-overlay" id="timeline-plus-modal">
+        <div class="modal-container">
+            <div class="modal-content">
+                <h2 class="modal-title" data-i18n="timeline-plus-title">Timeline+</h2>
+                <p class="modal-desc" data-i18n="timeline-plus-desc-full">Timeline+ 是MaxUnityX的强大扩展插件，为Unity Timeline添加了多种高级功能：<br><br>• 自定义轨道类型，支持更复杂的动画控制<br>• 增强的曲线编辑器，提供更精确的关键帧控制<br>• 特效轨道，可直接控制粒子系统和后期处理效果<br>• 音频处理轨道，提供高级音频混合功能<br>• 脚本控制轨道，允许在时间轴中直接调用自定义方法<br><br>通过Timeline+，您可以创建更加复杂和精美的关卡动画，大幅提升创作效率。</p>
+                <a href="#" class="btn-get" data-i18n="get-now">
+                    获取 Get Now
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            <div class="modal-gallery">
+                <img src="addon/timeline-plus1.png" alt="Timeline+ 演示" class="gallery-image active">
+                <img src="addon/timeline-plus2.png" alt="Timeline+ 演示" class="gallery-image">
+                <img src="addon/timeline-plus3.png" alt="Timeline+ 演示" class="gallery-image">
+                <div class="gallery-nav">
+                    <div class="nav-btn prev-btn"><i class="fas fa-chevron-left"></i></div>
+                    <div class="nav-btn next-btn"><i class="fas fa-chevron-right"></i></div>
+                </div>
+            </div>
+            <div class="modal-close"><i class="fas fa-times"></i></div>
+        </div>
+    </div>
+
+    <!-- Timeline Shader Track 模态框 -->
+    <div class="modal-overlay" id="timeline-shader-modal">
+        <div class="modal-container">
+            <div class="modal-content">
+                <h2 class="modal-title" data-i18n="timeline-shader-title">Timeline Shader Track</h2>
+                <p class="modal-desc" data-i18n="timeline-shader-desc-full">Timeline Shader Track 插件让您能够在时间轴中直接控制和动画化Shader参数，无需编写复杂代码：<br><br>• 实时Shader参数控制，支持所有主要Shader类型<br>• 颜色、浮点值和纹理的动态过渡<br>• 基于时间的材质动画序列<br>• 多材质同时控制，实现复杂效果<br>• 与标准Timeline轨道无缝集成<br><br>使用Shader Track，您可以创建令人惊叹的视觉效果，如材质过渡、发光动画、溶解效果等，大大增强关卡的视觉表现力。</p>
+                <a href="https://assetstore.unity.com/packages/tools/utilities/timeline-shader-track-292904" class="btn-get" data-i18n="get-now">
+                    获取 Get Now
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
+            <div class="modal-gallery">
+                <img src="addon/shader-track1.png" alt="Shader Track 演示" class="gallery-image active">
+                <img src="addon/shader-track2.png" alt="Shader Track 演示" class="gallery-image">
+                <img src="addon/shader-track3.png" alt="Shader Track 演示" class="gallery-image">
+                <div class="gallery-nav">
+                    <div class="nav-btn prev-btn"><i class="fas fa-chevron-left"></i></div>
+                    <div class="nav-btn next-btn"><i class="fas fa-chevron-right"></i></div>
+                </div>
+            </div>
+            <div class="modal-close"><i class="fas fa-times"></i></div>
+        </div>
+    </div>
+
+    <!-- 语言切换按钮 -->
+    <div class="lang-switcher">
+        <button class="lang-btn" data-lang="zh" title="切换为中文">中</button>
+        <button class="lang-btn" data-lang="en" title="Switch to English">EN</button>
+    </div>
+    <footer>
+        <div class="copyright">
+            &copy; 2025 MaxUnity. 保留所有权利.
+        </div>
+    </footer>
+    <script>
+        // 多语言文本定义
+        const translations = {
+            'zh': {
+                'home': '主页 Home',
+                'addons': '插件 Addons',
+                'mux2': 'MUX2',
+                'animations': '动画 Animations',
+                'addons-title': '插件 Addons',
+                'addons-desc': '独特的扩展插件，提高你在Unity中的动画可视化编辑效率',
+                'available-addons': '可用插件',
+                'timeline-plus-title': 'Timeline+（Unlanch）',
+                'timeline-plus-desc': '增强Timeline功能，提供更灵活的动画控制',
+                'timeline-shader-title': 'Timeline Shader Track',
+                'timeline-shader-desc': '在Timeline中直接控制材质和着色器参数',
+                'timeline-plus-desc-full': 'Timeline+ 为Unity Timeline添加了多种高级功能：<br><br>• 自定义轨道类型，支持更复杂的动画控制<br>• 增强的曲线编辑器，提供更精确的关键帧控制<br>• 特效轨道，可直接控制粒子系统和后期处理效果<br>• 音频处理轨道，提供高级音频混合功能<br>• 脚本控制轨道，允许在时间轴中直接调用自定义方法<br><br>通过Timeline+，您可以创建更加复杂和精美的关卡动画，大幅提升创作效率。',
+                'timeline-shader-desc-full': 'Timeline Shader Track 插件让您能够在时间轴中直接控制和动画化Shader参数，无需编写复杂代码：<br><br>• 实时Shader参数控制，支持所有主要Shader类型<br>• 颜色、浮点值和纹理的动态过渡多材质同时控制，实现复杂效果<br>• 与标准Timeline轨道无缝集成<br><br>使用Shader Track，您可以创建令人惊叹的视觉效果，如材质过渡、发光动画、溶解效果等，大大增强关卡的视觉表现力。',
+                'get-now': '获取 Get Now',
+                'close': 'X'
+            },
+            'en': {
+                'home': 'Home',
+                'addons': 'Addons',
+                'mux2': 'MUX2',
+                'animations': 'Animations',
+                'addons-title': 'Addons',
+                'addons-desc': 'Unique extension enhance your animation visualization editing efficiency in Unity',
+                'available-addons': 'Available Addons',
+                'timeline-plus-title': 'Timeline+（Unlanch）',
+                'timeline-plus-desc': 'Enhanced Timeline functionality for more flexible animation control',
+                'timeline-shader-title': 'Timeline Shader Track',
+                'timeline-shader-desc': 'Directly control materials and shader parameters within Timeline',
+                'timeline-plus-desc-full': 'Timeline+ adds various advanced features to Unity Timeline:<br><br>• Custom track types for more complex animation control<br>• Enhanced curve editor for more precise keyframe control<br>• Effect tracks that directly control particle systems and post-processing effects<br>• Audio processing tracks that provide advanced audio mixing capabilities<br>• Script control tracks that allow calling custom methods within the timeline<br><br>With Timeline+, you can create more complex and beautiful level animations, significantly improving your creation efficiency.',
+                'timeline-shader-desc-full': 'Timeline Shader Track plugin allows you to directly control and animate Shader parameters within the timeline without writing complex code:<br><br>• Real-time Shader parameter control supporting all major Shader types<br>• Dynamic transitions for colors, float values<br>• Time-based material animation sequences<br>• Simultaneous control of multiple materials to create complex effects<br>• Seamless integration with standard Timeline tracks<br><br>With Shader Track, you can create stunning visual effects such as material transitions, glow animations, dissolve effects, and greatly enhance the visual expressiveness of your projects.',
+                'get-now': 'Get Now',
+                'close': 'X'
+            }
+        };
+
+        // 页面初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            const savedLang = localStorage.getItem('preferredLanguage') || 'zh';
+            document.documentElement.setAttribute('lang', savedLang);
+            updateLangButtons(savedLang);
+            applyTranslations(savedLang);
+            document.querySelectorAll('.lang-btn').forEach(button => {
+                button.addEventListener('click', function() {
+                    const lang = this.getAttribute('data-lang');
+                    localStorage.setItem('preferredLanguage', lang);
+                    document.documentElement.setAttribute('lang', lang);
+                    updateLangButtons(lang);
+                    applyTranslations(lang);
+                });
+            });
+            const currentPath = window.location.pathname.split('/').pop();
+            const navLinks = document.querySelectorAll('.nav-tabs .tab-link');
+            
+            navLinks.forEach(link => {
+                const href = link.getAttribute('href');
+                if (href === currentPath || (currentPath === '' && href === 'index.html')) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+            const backgrounds = [
+                'addon/cover01.png',
+                'addon/cover02.png',
+                'addon/cover03.png',
+                'addon/cover04.png'
+            ];
+            
+            let currentIndex = 0;
+            const bgElement = document.querySelector('.video-background img');
+            
+            setInterval(() => {
+                currentIndex = (currentIndex + 1) % backgrounds.length;
+                bgElement.src = backgrounds[currentIndex];
+            }, 5000); 
+            
+            // 卡片点击事件
+            const cards = document.querySelectorAll('.addon-card');
+            cards.forEach(card => {
+                card.addEventListener('click', function() {
+                    const addonId = this.getAttribute('data-addon-id');
+                    const modal = document.getElementById(`${addonId}-modal`);
+                    modal.classList.add('active');
+                    
+                    // 应用当前语言
+                    const lang = document.documentElement.getAttribute('lang') || 'zh';
+                    applyTranslations(lang);
+                });
+            });
+            
+            // 关闭模态框
+            const modalCloses = document.querySelectorAll('.modal-close, .modal-overlay');
+            modalCloses.forEach(close => {
+                close.addEventListener('click', function(e) {
+                    if (e.target === this || this.classList.contains('modal-close')) {
+                        const modal = this.closest('.modal-overlay');
+                        modal.classList.remove('active');
+                    }
+                });
+            });
+            
+            // 图片轮播功能
+            const modals = document.querySelectorAll('.modal-overlay');
+            modals.forEach(modal => {
+                const slides = modal.querySelectorAll('.gallery-image');
+                const prevBtn = modal.querySelector('.prev-btn');
+                const nextBtn = modal.querySelector('.next-btn');
+                
+                let currentSlide = 0;
+                
+                function showSlide(index) {
+                    slides.forEach(slide => slide.classList.remove('active'));
+                    slides[index].classList.add('active');
+                    currentSlide = index;
+                }
+                
+                // 上一张
+                prevBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    currentSlide = (currentSlide - 1 + slides.length) % slides.length;
+                    showSlide(currentSlide);
+                });
+                
+                // 下一张
+                nextBtn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    currentSlide = (currentSlide + 1) % slides.length;
+                    showSlide(currentSlide);
+                });
+            });
+            
+            // 导航栏滚动效果
+            window.addEventListener('scroll', function() {
+                const navbar = document.querySelector('.navbar');
+                if (window.scrollY > 50) {
+                    navbar.classList.add('scrolled');
+                } else {
+                    navbar.classList.remove('scrolled');
+                }
+            });
+        });
+
+        // 更新语言按钮状态
+        function updateLangButtons(currentLang) {
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                if (btn.getAttribute('data-lang') === currentLang) {
+                    btn.classList.add('active');
+                } else {
+                    btn.classList.remove('active');
+                }
+            });
+        }
+
+        // 应用翻译
+        function applyTranslations(lang) {
+            // 更新导航链接
+            const navLinks = document.querySelectorAll('.nav-links a');
+            if (navLinks.length >= 4) {
+                navLinks[0].textContent = translations[lang]['Home'];
+                navLinks[1].textContent = translations[lang]['Addons'];
+                navLinks[2].textContent = translations[lang]['MUX2'];
+                navLinks[3].textContent = translations[lang]['Animations'];
+            }
+            
+            // 更新所有有data-i18n属性的元素
+            document.querySelectorAll('[data-i18n]').forEach(element => {
+                const key = element.getAttribute('data-i18n');
+                if (translations[lang] && translations[lang][key]) {
+                    if (element.tagName === 'INPUT' || element.tagName === 'TEXTAREA') {
+                        element.placeholder = translations[lang][key];
+                    } else {
+                        element.innerHTML = translations[lang][key];
+                    }
+                }
+            });
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,471 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>动画 Animations - Unity高级模板文档</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
+    <style>
+        :root {
+            --primary-bg: #0a0a0a;
+            --secondary-bg: #121212;
+            --card-bg: #1a1a1a;
+            --border-color: #333;
+            --highlight: #e0e0e0;
+            --text-primary: #f0f0f0;
+            --text-secondary: #aaa;
+            --accent: #4a4a4a;
+            --accent-blue: #4a86e8;
+            --accent-purple: #8e44ad;
+            --accent-green: #27ae60;
+            --accent-orange: #e67e22;
+        }
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', 'Segoe UI', 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
+        }
+        body {
+            background: linear-gradient(135deg, var(--primary-bg) 0%, var(--secondary-bg) 100%);
+            color: var(--text-primary);
+            line-height: 1.7;
+            overflow-x: hidden;
+            min-height: 100vh;
+            padding-top: 80px; /* 为固定导航栏留出空间 */
+            background-attachment: fixed;
+        }
+        /* 导航栏样式 */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            background: rgba(10, 10, 10, 0.95);
+            backdrop-filter: blur(10px);
+            padding: 1.2rem 5%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 1000;
+            border-bottom: 1px solid var(--border-color);
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        }
+        .navbar.scrolled {
+            padding: 0.8rem 5%;
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+        }
+        .nav-tabs {
+            display: flex;
+            gap: 1.5rem;
+        }
+        
+        .tab-link {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 1.1rem;
+            transition: all 0.3s ease;
+            position: relative;
+            padding: 0.5rem 0;
+        }
+        
+        .tab-link:hover {
+            color: var(--text-primary);
+        }
+        
+        .tab-link.active {
+            color: var(--accent-blue);
+        }
+        
+        .tab-link.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: var(--accent-blue);
+        }
+        /* 英雄区域样式 */
+        .hero {
+            height: calc(100vh - 80px); /* 考虑导航栏高度 */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: flex-start; /* 内容左对齐 */
+            text-align: left;
+            padding: 0 2rem;
+            position: relative;
+            overflow: hidden;
+        }
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at center, rgba(30, 30, 30, 0.8) 0%, rgba(10, 10, 10, 0.9) 70%);
+            z-index: -1;
+        }
+        .hero::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(80, 80, 80, 0.1) 0%, transparent 70%);
+            transform: translate(-50%, -50%);
+            z-index: -2;
+            animation: pulse 8s infinite alternate;
+        }
+        .hero-content {
+            max-width: 500px; /* 限制左侧内容宽度 */
+            z-index: 1;
+        }
+        .hero h1 {
+            font-size: 4.5rem;
+            margin-bottom: 1.5rem;
+            letter-spacing: 2px;
+            background: linear-gradient(to right, #fff 0%, #aaa 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: fadeInDown 1s ease;
+        }
+        .hero p {
+            font-size: 1.4rem;
+            color: var(--text-secondary);
+            margin-bottom: 2.5rem;
+            animation: fadeInUp 1s ease 0.2s forwards;
+            opacity: 0;
+            max-width: 450px;
+        }
+        /* 动态背景视频 */
+        .video-background {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+            z-index: -3;
+        }
+        .video-background img {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            min-width: 100%;
+            min-height: 100%;
+            width: auto;
+            height: auto;
+            transform: translate(-50%, -50%);
+            object-fit: cover;
+            filter: blur(0.2px) brightness(1.2);
+            transition: filter 0.3s ease;
+        }
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(
+                circle at center,
+                rgba(10, 10, 10, 0.4) 0%,
+                rgba(10, 10, 10, 0.8) 70%
+            );
+            z-index: -2;
+        }
+        .fallback-bg {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, var(--primary-bg) 0%, var(--secondary-bg) 100%);
+        }
+        /* 卡片区域 */
+        .cards-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr)); /* 使用auto-fill和minmax实现自动布局 */
+            gap: 1.5rem;
+            margin-top: 1rem;
+            width: 100%;
+        }
+        .logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+        }
+        
+        .logo span {
+            color: var(--accent-blue);
+        }
+        
+        .card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid var(--border-color);
+            transition: transform 0.4s ease, box-shadow 0.4s ease;
+            cursor: pointer;
+            position: relative;
+            height: 180px;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        }
+        .card-content {
+            padding: 1.2rem;
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background: linear-gradient(to top, rgba(26, 26, 26, 0.9), transparent);
+            z-index: 2;
+        }
+        .card-title {
+            font-size: 1.3rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+            font-weight: 500;
+        }
+        .card-description {
+            color: var(--text-secondary);
+            font-size: 0.9rem;
+            line-height: 1.5;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+        .global-play-button {
+            position: absolute;
+            bottom: 50px;
+            right: 50px;
+            width: 70px;
+            height: 70px;
+            background: var(--accent-blue);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            opacity: 0;
+            transform: scale(0.8);
+            transition: all 0.3s ease;
+            z-index: 100;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            animation: bounce 2s infinite;
+        }
+        .global-play-button.active {
+            opacity: 1;
+            transform: scale(1);
+        }
+        .global-play-button i {
+            font-size: 1.8rem;
+            margin-left: 3px;
+        }
+        .selected-card {
+            border: 2px solid var(--accent-blue);
+            box-shadow: 0 0 0 3px rgba(74, 134, 232, 0.3);
+        }
+        /* 页脚样式 */
+        footer {
+            background: var(--primary-bg);
+            padding: 4rem 2rem 2.5rem;
+            text-align: center;
+            border-top: 1px solid var(--border-color);
+        }
+        .copyright {
+            margin-top: 3rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid var(--border-color);
+            font-size: 0.9rem;
+            color: var(--text-secondary);
+        }
+        /* 动画 */
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+        @keyframes pulse {
+            0% {
+                opacity: 0.3;
+                transform: translate(-50%, -50%) scale(0.8);
+            }
+            100% {
+                opacity: 0.6;
+                transform: translate(-50%, -50%) scale(1.2);
+            }
+        }
+        @keyframes bounce {
+            0%, 20%, 50%, 80%, 100% {
+                transform: scale(1);
+            }
+            40% {
+                transform: scale(1.05);
+            }
+            60% {
+                transform: scale(1.02);
+            }
+        }
+        /* 响应式设计 */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.8rem;
+            }
+            .hero p {
+                font-size: 1.1rem;
+            }
+            .hero {
+                padding: 0 1.5rem;
+                height: calc(100vh - 70px);
+            }
+            .global-play-button {
+                bottom: 30px;
+                right: 30px;
+                width: 60px;
+                height: 60px;
+            }
+            .hero-content {
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 导航栏 -->
+    <nav class="navbar">
+        <div class="logo">MaxUnity<span>.</span></div>
+       <div class="nav-tabs">
+            <a href="index.html" class="tab-link active">主页 Home</a>
+            <a href="addons.html" class="tab-link">插件 Addons</a>
+            <a href="mux2.html" class="tab-link">MUX2</a>
+            <a href="animation.html" class="tab-link">动画 Animations</a>
+        </div>
+    </nav>
+    <!-- 英雄区域 -->
+    <section class="hero">
+        <div class="video-background">
+            <img id="hero-bg-image" src="animations/hero-bg.png" alt="动画背景">
+            <div class="video-overlay"></div>
+        </div>
+        <div class="hero-content">
+            <h1>动画 Animations</h1>
+            
+            <div class="cards-container">
+                <!-- 卡片1 -->
+                <div class="card" data-bg="animations/hero-bg.png" data-video="https://www.bilibili.com/video/BV1Xx411c7Z9">
+                    <div class="card-content">
+                        <h3 class="card-title">秘密1</h3>
+                        <p class="card-description">balalala</p>
+                    </div>
+                </div>
+                <!-- 卡片2 -->
+                <div class="card" data-bg="animations/card2-bg.jpg" data-video="https://www.bilibili.com/video/BV1m5411c7Z9">
+                    <div class="card-content">
+                        <h3 class="card-title">秘密2</h3>
+                        <p class="card-description">balalala</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- 全局播放按钮 - 位于英雄区域右下角 -->
+        <div class="global-play-button" id="global-play-button">
+            <i class="fas fa-play"></i>
+        </div>
+    </section>
+    <!-- 页脚 -->
+    <footer>
+        <div class="copyright">
+            <p>&copy; 2025 MaxUnity. 保留所有权利。</p>
+        </div>
+    </footer>
+    <script>
+        // 页面加载时初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            const cards = document.querySelectorAll('.card');
+            const heroBackground = document.getElementById('hero-bg-image');
+            const globalPlayButton = document.getElementById('global-play-button');
+            let currentVideoUrl = '';
+             const currentPath = window.location.pathname.split('/').pop();
+            const navLinks = document.querySelectorAll('.nav-tabs .tab-link');
+            
+            navLinks.forEach(link => {
+                const href = link.getAttribute('href');
+                if (href === currentPath || (currentPath === '' && href === 'index.html')) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
+                }
+            });
+            // 初始化第一张卡片为选中状态
+            
+            // 为每个卡片添加点击事件
+            cards.forEach(card => {
+                const bgImage = card.getAttribute('data-bg');
+                const videoUrl = card.getAttribute('data-video');
+                
+                card.addEventListener('click', function() {
+                    // 移除所有卡片的选中状态
+                    cards.forEach(c => c.classList.remove('selected-card'));
+                    // 添加当前卡片的选中状态
+                    this.classList.add('selected-card');
+                    
+                    // 更新背景
+                    heroBackground.src = bgImage;
+                    heroBackground.style.filter = 'blur(2px) brightness(0.7)';
+                    
+                    // 更新当前视频URL
+                    currentVideoUrl = videoUrl;
+                    
+                    // 显示播放按钮
+                    globalPlayButton.classList.add('active');
+                });
+            });
+            
+            // 全局播放按钮点击事件
+            globalPlayButton.addEventListener('click', function() {
+                if (currentVideoUrl) {
+                    window.open(currentVideoUrl, '_blank');
+                }
+            });
+            
+            // 点击其他地方隐藏播放按钮
+            document.addEventListener('click', function(e) {
+                if (!e.target.closest('.card') && !e.target.closest('.global-play-button')) {
+                    globalPlayButton.classList.remove('active');
+                    heroBackground.src = 'animations/hero-bg.png';
+                    heroBackground.style.filter = 'blur(0.1px) brightness(1.3)';
+                    
+                    // 移除所有卡片的选中状态
+                    cards.forEach(c => c.classList.remove('selected-card'));
+                }
+            });
+        });
+    </script>
+</body>
+</html>

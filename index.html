@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MaxUnityX 2.0模板教程</title>
+    <title>MaxUnity(*^▽^*)</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap">
     <style>
@@ -17,145 +17,145 @@
             --text-secondary: #aaa;
             --accent: #4a4a4a;
             --accent-blue: #4a86e8;
-            --accent-purple: #8e44ad;
-            --accent-green: #27ae60;
-            --accent-orange: #e67e22;
         }
         
         * {
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Inter', 'Segoe UI', 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
         }
         
         body {
-            background: linear-gradient(135deg, var(--primary-bg) 0%, var(--secondary-bg) 100%);
+            font-family: 'Inter', sans-serif;
+            background-color: var(--primary-bg);
             color: var(--text-primary);
-            line-height: 1.7;
+            line-height: 1.6;
             overflow-x: hidden;
             min-height: 100vh;
-            padding: 0;
-            background-attachment: fixed;
+            position: relative;
         }
         
-        /* 导航栏样式 */
+        /* 顶部导航栏 */
         .navbar {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            background: rgba(10, 10, 10, 0.95);
-            backdrop-filter: blur(10px);
-            padding: 1.2rem 5%;
             display: flex;
             justify-content: space-between;
             align-items: center;
-            z-index: 1000;
-            border-bottom: 1px solid var(--border-color);
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-        }
-        
-        .navbar.scrolled {
-            padding: 0.8rem 5%;
-            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.3);
+            padding: 1.5rem 5%;
+            position: relative;
+            z-index: 100;
         }
         
         .logo {
-            font-size: 1.8rem;
-            font-weight: 800;
-            letter-spacing: 1px;
-            background: linear-gradient(to right, #fff 0%, #aaa 100%);
-            -webkit-background-clip: text;
-            -webkit-text-fill-color: transparent;
-            text-shadow: 0 2px 8px rgba(255, 255, 255, 0.1);
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
         }
         
-        .nav-links {
+        .logo span {
+            color: var(--accent-blue);
+        }
+        
+        .nav-tabs {
             display: flex;
-            gap: 2.5rem;
+            gap: 1.5rem;
         }
         
-        .nav-links a {
+        .tab-link {
             color: var(--text-secondary);
             text-decoration: none;
             font-weight: 500;
+            font-size: 1.1rem;
             transition: all 0.3s ease;
             position: relative;
-            font-size: 1.05rem;
+            padding: 0.5rem 0;
         }
         
-        .nav-links a:hover,
-        .nav-links a.active {
+        .tab-link:hover {
             color: var(--text-primary);
         }
         
-        .nav-links a::after {
+        .tab-link.active {
+            color: var(--accent-blue);
+        }
+        
+        .tab-link.active::after {
             content: '';
             position: absolute;
-            bottom: -5px;
+            bottom: 0;
             left: 0;
-            width: 0;
-            height: 2px;
-            background: var(--text-primary);
-            transition: width 0.4s cubic-bezier(0.165, 0.84, 0.44, 1);
-        }
-        
-        .nav-links a:hover::after,
-        .nav-links a.active::after {
             width: 100%;
+            height: 2px;
+            background: var(--accent-blue);
         }
         
-        /* 英雄区域样式 */
+        /* 英雄区域 - 主要欢迎内容 */
         .hero {
             height: 100vh;
             display: flex;
-            flex-direction: column;
-            justify-content: center;
             align-items: center;
-            text-align: center;
-            padding: 0 2rem;
+            padding: 0 10%;
             position: relative;
             overflow: hidden;
         }
         
-        .hero::before {
-            content: '';
+        /* 背景视频/图片 */
+        .video-background {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: radial-gradient(circle at center, rgba(30, 30, 30, 0.8) 0%, rgba(10, 10, 10, 0.9) 70%);
+            z-index: -2;
+        }
+        
+        .video-background img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: blur(0.5px) brightness(1.1);
+            transition: filter 0.3s ease;
+        }
+        
+        .video-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, rgba(10,10,10,0.9) 30%, rgba(10,10,10,0.6) 70%, rgba(10,10,10,0) 100%);
             z-index: -1;
         }
         
-        .hero::after {
-            content: '';
-            position: absolute;
-            top: 50%;
-            left: 50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(circle, rgba(80, 80, 80, 0.1) 0%, transparent 70%);
-            transform: translate(-50%, -50%);
-            z-index: -2;
-            animation: pulse 8s infinite alternate;
-        }
-        
-        .hero-content {
-            max-width: 900px;
+        /* 欢迎文字区域 */
+        .welcome-section {
+            max-width: 600px;
             z-index: 1;
         }
         
-        .hero h1 {
-            font-size: 4.5rem;
-            margin-bottom: 1.5rem;
-            letter-spacing: 2px;
-            background: linear-gradient(to right, #fff 0%, #aaa 100%);
+        .welcome-section h1 {
+            font-size: 6rem;
+            font-weight: 700;
+            line-height: 1;
+            margin-bottom: 0.5rem;
+            background: linear-gradient(to right, #fff, #aaa);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             animation: fadeInDown 1s ease;
+        }
+        
+        .welcome-section h2 {
+            font-size: 3rem;
+            font-weight: 500;
+            color: var(--text-secondary);
+            margin-bottom: 2rem;
+            animation: fadeInUp 1s ease 0.2s forwards;
+            opacity: 0;
+        }
+        
+        .hero-content {
+            position: relative;
+            z-index: 1;
         }
         
         .hero p {
@@ -179,517 +179,147 @@
             font-weight: 600;
             text-decoration: none;
             border-radius: 50px;
-            transition: all 0.4s ease;
-            animation: fadeInUp 1s ease 0.4s forwards;
-            opacity: 0;
+            transition: all 0.3s ease;
             position: relative;
             overflow: hidden;
-        }
-        
-        .cta-button::before {
-            content: '';
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: rgba(255, 255, 255, 0.1);
-            transition: all 0.6s ease;
-            z-index: -1;
+            z-index: 1;
         }
         
         .cta-button:hover {
-            background: rgba(255, 255, 255, 0.05);
-            transform: translateY(-5px);
-            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+            background: rgba(255, 255, 255, 0.1);
+            transform: translateY(-2px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.2);
         }
         
-        .cta-button:hover::before {
-            left: 100%;
+        .cta-button i {
+            margin-left: 0.5rem;
+            transition: transform 0.3s ease;
         }
         
-        /* 主要内容区域 */
-        .container {
-            max-width: 1200px;
-            margin: 0 auto;
-            padding: 5rem 2rem;
+        .cta-button:hover i {
+            transform: translateX(3px);
         }
         
-        .section {
-            margin-bottom: 5rem;
-            padding: 2.5rem;
-            background: var(--card-bg);
-            border-radius: 16px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
-            border: 1px solid var(--border-color);
-            transition: transform 0.4s ease, box-shadow 0.4s ease;
-        }
-        
-        .section:hover {
-            transform: translateY(-8px);
-            box-shadow: 0 15px 40px rgba(0, 0, 0, 0.4);
+        /* 项目展示区域 */
+        .projects-section {
+            padding: 5rem 10%;
         }
         
         .section-header {
             display: flex;
             align-items: center;
             margin-bottom: 2.5rem;
-            padding-bottom: 1.5rem;
-            border-bottom: 1px solid var(--border-color);
         }
         
         .section-number {
-            font-size: 2.8rem;
-            font-weight: 800;
-            color: var(--text-secondary);
-            margin-right: 1.2rem;
-            min-width: 60px;
+            width: 40px;
+            height: 40px;
+            background: var(--accent-blue);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--primary-bg);
+            font-weight: 700;
+            margin-right: 1rem;
+            font-size: 1.1rem;
         }
         
         .section-title {
-            font-size: 2.4rem;
-            font-weight: 700;
-            color: var(--text-primary);
-        }
-        
-        .section-content {
-            padding: 0 1rem;
-        }
-        
-        .section-content h3 {
-            font-size: 1.7rem;
-            margin: 2.5rem 0 1.5rem;
-            color: var(--text-primary);
-            position: relative;
-            padding-left: 1.8rem;
-        }
-        
-        .section-content h3::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 10px;
-            height: 10px;
-            background: var(--accent-blue);
-            border-radius: 50%;
-        }
-        
-        /* 脚本选项卡 */
-        .script-tabs {
-            margin: 2rem 0;
-        }
-        .tab-content.inner        { display:none; }
-        .tab-content.inner.active { display:block; }
-        .tab-header {
-            display: flex;
-            border-bottom: 1px solid var(--border-color);
-            margin-bottom: 1.5rem;
-            overflow-x: auto;
-            padding-bottom: 5px;
-        }
-        
-        .tab-link {
-            padding: 0.8rem 1.5rem;
-            background: transparent;
-            color: var(--text-secondary);
-            border: none;
-            cursor: pointer;
-            font-size: 1.1rem;
+            font-size: 2.2rem;
             font-weight: 600;
-            transition: all 0.3s ease;
-            position: relative;
-            white-space: nowrap;
-        }
-        
-        .tab-link.active {
             color: var(--text-primary);
         }
         
-        .tab-link.active::after {
-            content: '';
-            position: absolute;
-            bottom: -6px;
-            left: 0;
-            width: 100%;
-            height: 3px;
-            background: var(--accent-blue);
-        }
-        
-        .tab-content {
-            display: none;
-            animation: fadeIn 0.5s ease;
-        }
-        
-        .tab-content.active {
-            display: block;
-             animation: fadeIn 0.5s ease;
-        }
-        
-        .script-detail {
-            background: rgba(30, 30, 30, 0.6);
-            border-radius: 10px;
-            padding: 1.5rem;
-            margin-bottom: 1.5rem;
-            border: 1px solid var(--border-color);
-        }
-        
-        .script-detail h4 {
-            font-size: 1.3rem;
-            margin-bottom: 1.2rem;
-            color: var(--text-primary);
-            display: flex;
-            align-items: center;
-        }
-        
-        .script-detail h4 i {
-            margin-right: 0.8rem;
-            color: var(--text-secondary);
-        }
-        
-        .variable-grid {
+        .projects-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 1.5rem;
         }
         
-        .variable-card {
-            background: rgba(40, 40, 40, 0.6);
-            border-radius: 8px;
-            padding: 1.2rem;
-            border-left: 3px solid var(--accent-blue);
-            transition: transform 0.3s ease;
-        }
-        
-        .variable-card:hover {
-            transform: translateY(-5px);
-            background: rgba(50, 50, 50, 0.7);
-        }
-        
-        .var-name {
-            font-weight: 600;
-            color: var(--text-primary);
-            margin-bottom: 0.5rem;
-            font-size: 1.1rem;
-            display: flex;
-            align-items: center;
-        }
-        
-        .var-name i {
-            margin-right: 8px;
-            font-size: 0.9rem;
-        }
-        
-        .var-desc {
-            color: var(--text-secondary);
-            font-size: 0.95rem;
-            line-height: 1.6;
-        }
-        
-        /* 图片样式 */
-        .image-container {
-            margin: 2.5rem 0;
-            text-align: center;
-        }
-        
-        .image-container img {
-            max-width: 100%;
-            border-radius: 8px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+        .project-card {
+            background: var(--card-bg);
+            border-radius: 12px;
+            overflow: hidden;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
             border: 1px solid var(--border-color);
-            transition: transform 0.4s ease;
-            background: #222;
-            padding: 8px;
-            
         }
         
-        .image-container img:hover {
-            transform: scale(1.02);
+        .project-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
         }
         
-        .image-caption {
-            margin-top: 1rem;
-            font-style: italic;
+        .project-img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        
+        .project-content {
+            padding: 1.5rem;
+        }
+        
+        .project-title {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+        
+        .project-desc {
             color: var(--text-secondary);
+            margin-bottom: 1rem;
             font-size: 0.95rem;
         }
         
-        .image-row {
+        .project-tags {
             display: flex;
             flex-wrap: wrap;
-            gap: 20px;
-            margin: 2rem 0;
+            gap: 0.5rem;
         }
         
-        .image-col {
-            flex: 1;
-            min-width: 300px;
-        }
-        
-        /* 内容样式 */
-        .content-block {
-            margin-bottom: 2rem;
-            padding: 1.5rem;
-            background: rgba(30, 30, 30, 0.5);
-            border-radius: 8px;
-            border-left: 3px solid var(--accent-purple);
-        }
-        .tab-header {
-        display: flex;
-        border-bottom: 1px solid var(--border-color);
-        margin-bottom: 1.5rem;
-        overflow-x: auto;
-        padding-bottom: 5px;
-        scrollbar-width: none;
-        -ms-overflow-style: none;
-    }
-    .tab-header::-webkit-scrollbar {
-        display: none;
-    }
-        .content-block h4 {
-            font-size: 1.3rem;
-            margin-bottom: 1rem;
-            color: var(--accent-blue);
-        }
-        
-        .content-block p {
-            margin-bottom: 1rem;
-            color: var(--text-secondary);
-        }
-        
-        .note {
+        .tag {
             background: rgba(74, 134, 232, 0.1);
-            border-left: 3px solid var(--accent-blue);
-            padding: 1rem;
-            border-radius: 0 8px 8px 0;
-            margin: 1.5rem 0;
+            color: var(--accent-blue);
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
         }
         
-        .warning {
-            background: rgba(231, 76, 60, 0.1);
-            border-left: 3px solid #e74c3c;
-            padding: 1rem;
-            border-radius: 0 8px 8px 0;
-            margin: 1.5rem 0;
-        }
-        
-        .tip {
-            background: rgba(46, 204, 113, 0.1);
-            border-left: 3px solid #2ecc71;
-            padding: 1rem;
-            border-radius: 0 8px 8px 0;
-            margin: 1.5rem 0;
-        }
-        
-        .code-block {
-            background: rgba(20, 20, 20, 0.8);
-            padding: 1rem;
-            border-radius: 8px;
-            font-family: monospace;
-            margin: 1.5rem 0;
-            overflow-x: auto;
-            border: 1px solid var(--border-color);
-        }
-        
-        /* 页脚样式 */
+        /* 页脚 */
         footer {
-            background: var(--primary-bg);
-            padding: 4rem 2rem 2.5rem;
-            text-align: center;
+            background: var(--secondary-bg);
+            padding: 3rem 10%;
             border-top: 1px solid var(--border-color);
         }
         
         .footer-content {
-            max-width: 1200px;
-            margin: 0 auto;
-            display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 2.5rem;
-            text-align: left;
-            margin-bottom: 3rem;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 2rem;
         }
         
-        .footer-column h3 {
-            font-size: 1.4rem;
-            margin-bottom: 1.5rem;
+        .footer-about {
+            max-width: 400px;
+        }
+        
+        .footer-about h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
             color: var(--text-primary);
-            position: relative;
-            padding-bottom: 0.8rem;
         }
         
-        .footer-column h3::after {
-            content: '';
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            width: 50px;
-            height: 2px;
-            background: var(--text-primary);
-        }
-        
-        .footer-column ul {
-            list-style: none;
-        }
-        
-        .footer-column li {
-            margin-bottom: 0.8rem;
-        }
-        
-        .footer-column a {
+        .footer-about p {
             color: var(--text-secondary);
-            text-decoration: none;
-            transition: color 0.3s;
-            display: inline-block;
-        }
-        
-        .footer-column a:hover {
-            color: var(--text-primary);
-            transform: translateX(5px);
+            margin-bottom: 1.5rem;
         }
         
         .social-links {
             display: flex;
-            gap: 1.2rem;
-            margin-top: 1.5rem;
+            gap: 1rem;
         }
-        .modal-overlay{
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.7);
-  backdrop-filter:blur(6px);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  z-index:9999;
-  animation:fadeIn .4s ease;
-}
-/* 弹窗主体 */
-.modal-box{
-  position:relative;
-  width:90%;
-  max-width:480px;
-  background:#1a1a1a;
-  border:1px solid #333;
-  border-radius:12px;
-  padding:2.2rem 2.5rem;
-  color:#f0f0f0;
-  box-shadow:0 15px 35px rgba(0,0,0,.6);
-  animation:scaleUp .4s ease;
-  font-family:'Inter',sans-serif;
-}
-/* 关闭按钮 */
-.modal-close{
-  position:absolute;
-  top:1rem;
-  right:1.2rem;
-  background:none;
-  border:none;
-  font-size:1.6rem;
-  color:#aaa;
-  cursor:pointer;
-  transition:color .25s;
-}
-.modal-close:hover{color:#fff;}
-
-/* 标题与正文 */
-.modal-box h2{
-  margin:0 0 .8rem;
-  font-size:1.5rem;
-  background:linear-gradient(90deg,#fff 0%,#aaa 100%);
-  -webkit-background-clip:text;
-  -webkit-text-fill-color:transparent;
-}
-.modal-box p{
-  margin:.5rem 0 1.5rem;
-  line-height:1.6;
-  color:#bbb;
-}
-
-/* 底部按钮 */
-.modal-footer{text-align:right;}
-.btn-primary{
-  background:transparent;
-  color:#fff;
-  border:1px solid #fff;
-  padding:.55rem 1.4rem;
-  border-radius:50px;
-  cursor:pointer;
-  transition:all .3s;
-}
-.btn-primary:hover{
-  background:rgba(255,255,255,.08);
-  transform:translateY(-2px);
-}
-/* 动态视频背景样式 */
-.video-background {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    z-index: -3;
-}
-
-.video-background video {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    min-width: 100%;
-    min-height: 100%;
-    width: auto;
-    height: auto;
-    transform: translate(-50%, -50%);
-    object-fit: cover;
-    filter: blur(2px) brightness(0.7);
-    transition: filter 0.3s ease;
-}
-
-.video-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: radial-gradient(
-        circle at center,
-        rgba(10, 10, 10, 0.4) 0%,
-        rgba(10, 10, 10, 0.8) 70%
-    );
-    z-index: -2;
-}
-
-.fallback-bg {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(135deg, var(--primary-bg) 0%, var(--secondary-bg) 100%);
-}
-
-/* 调整英雄区域z-index确保内容在上层 */
-.hero-content {
-    position: relative;
-    z-index: 1;
-}
-
-/* 响应式调整 */
-@media (max-width: 768px) {
-    .video-background video {
-        filter: blur(3px) brightness(0.6);
-    }
-}
-/* 动画 */
-@keyframes fadeOut{
-  from{opacity:1}
-  to{opacity:0}
-}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-@keyframes scaleUp{from{transform:scale(.9)}to{transform:scale(1)}}
-@keyframes fadeIn{from{opacity:0}to{opacity:1}}
-@keyframes scaleUp{from{transform:scale(.9)}to{transform:scale(1)}}
+        
         .social-links a {
             display: inline-flex;
             align-items: center;
@@ -697,32 +327,30 @@
             width: 42px;
             height: 42px;
             background: var(--card-bg);
-            color: var(--text-primary);
             border-radius: 50%;
+            color: var(--text-secondary);
             transition: all 0.3s ease;
-            border: 1px solid var(--border-color);
         }
         
         .social-links a:hover {
-            transform: translateY(-5px);
-            background: var(--text-primary);
-            color: var(--primary-bg);
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+            background: var(--accent-blue);
+            color: white;
+            transform: translateY(-3px);
         }
         
         .copyright {
-            margin-top: 3rem;
-            padding-top: 1.5rem;
-            border-top: 1px solid var(--border-color);
-            font-size: 0.9rem;
+            width: 100%;
+            text-align: center;
+            padding-top: 2rem;
             color: var(--text-secondary);
+            font-size: 0.9rem;
         }
         
         /* 动画 */
         @keyframes fadeInDown {
             from {
                 opacity: 0;
-                transform: translateY(-30px);
+                transform: translateY(-20px);
             }
             to {
                 opacity: 1;
@@ -733,7 +361,7 @@
         @keyframes fadeInUp {
             from {
                 opacity: 0;
-                transform: translateY(30px);
+                transform: translateY(20px);
             }
             to {
                 opacity: 1;
@@ -741,1111 +369,168 @@
             }
         }
         
-        @keyframes fadeIn {
-            from {
-                opacity: 0;
-            }
-            to {
-                opacity: 1;
-            }
-        }
-        
-        @keyframes pulse {
-            0% {
-                opacity: 0.3;
-                transform: translate(-50%, -50%) scale(0.8);
-            }
-            100% {
-                opacity: 0.6;
-                transform: translate(-50%, -50%) scale(1.2);
-            }
-        }
-        
-        /* 响应式设计 */
-        @media (max-width: 992px) {
-            .hero h1 {
-                font-size: 3.5rem;
+        /* 响应式调整 */
+        @media (max-width: 768px) {
+            .hero {
+                padding: 0 5%;
+                flex-direction: column;
+                text-align: center;
             }
             
-            .hero p {
-                font-size: 1.2rem;
+            .video-background img {
+                filter: blur(3px) brightness(0.6);
             }
             
-            .section-title {
+            .welcome-section {
+                margin-top: 3rem;
+            }
+            
+            .welcome-section h1 {
+                font-size: 4rem;
+            }
+            
+            .welcome-section h2 {
                 font-size: 2rem;
             }
-        }
-        
-        @media (max-width: 768px) {
-            .navbar {
-                padding: 1rem 5%;
+            
+            .projects-section {
+                padding: 3rem 5%;
+            }
+            
+            .footer-content {
                 flex-direction: column;
-                gap: 1rem;
-            }
-            
-            .nav-links {
-                gap: 1.5rem;
-                flex-wrap: wrap;
-                justify-content: center;
-            }
-            
-            .hero h1 {
-                font-size: 2.8rem;
-            }
-            
-            .section {
-                padding: 1.8rem;
-            }
-            
-            .section-title {
-                font-size: 1.8rem;
             }
         }
     </style>
 </head>
 <body>
-    <!-- 导航栏 -->
+    <!-- 顶部导航栏 -->
     <nav class="navbar">
-        <div class="logo">MaxUnityX 2.0</div>
-        <div class="nav-links">
-            <a href="#getting-started" class="active">开始使用</a>
-            <a href="#start">前言</a>
-            <a href="#main-scripts">主要脚本功能</a>
-            <a href="#main-functions">主要效果实现</a>
-            <a href="#more">更多</a>
+        <a href="https://space.bilibili.com/1481923622" class="logo">MaxUnity<span>.</span></a>
+        <div class="nav-tabs">
+            <a href="index.html" class="tab-link active">主页 Home</a>
+            <a href="addons.html" class="tab-link">插件 Addons</a>
+            <a href="mux2.html" class="tab-link">MUX2</a>
+            <a href="animation.html" class="tab-link">动画 Animations</a>
         </div>
     </nav>
 
-    <!-- 英雄区域 -->
+    <!-- 英雄区域 - 主要欢迎内容 -->
     <section class="hero">
         <div class="video-background">
-        <video autoplay muted loop playsinline>
-            <source src="mux2/cover.mp4" type="video/mp4">
-        </video>
+            <img src="mux2/cover03.png" alt="背景图">
+        </div>
         <div class="video-overlay"></div>
-    </div>
+        
         <div class="hero-content">
-            <h1>MaxUnityX 2.0</h1>
-            <p>基于Unity Timeline的高级创作模板,为风格独特的饭制开发提供强大工具</p>
-            <a href="#getting-started" class="cta-button">探索文档 <i class="fas fa-arrow-down"></i></a>
+            <div class="welcome-section">
+                <h1>欢迎</h1>
+                <h2>Welcome</h2>
+                <p>我是独立开发者/设计师，专注于数字艺术的研究。致力于通过数字媒介将递温暖传递于你</p>
+                <a href="#projects" class="cta-button">
+                    查看我的作品
+                    <i class="fas fa-arrow-right"></i>
+                </a>
+            </div>
         </div>
     </section>
 
-    <!-- 主要内容 -->
-    <div class="container">
-        <!-- 开始使用 -->
-        <section id="getting-started" class="section">
-            <div class="section-header">
-                <div class="section-number">01</div>
-                <h2 class="section-title">开始使用</h2>
-            </div>
-            
-            <div class="section-content">
-                <p>MaxUnity X2.0完全基于Unity Timeline系统构建，提供了一套完整的交互解决方案。主要架构包括：</p>
-                
-                <ul>
-                    <li><strong>LineMover</strong> - 线的移动</li>
-                    <li><strong>GameFramework-GameController</strong> - 游戏架构与控制</li>
-                    <li><strong>Visualization</strong> - 编辑关卡时的可视化处理</li>
-                    <li><strong>Customized Timeline Track</strong> - 动画等自定义效果的实现</li>
-                </ul>
-                
-                <div class="note">
-                    <p><strong>重要提示：</strong>禁止将本模板所制作的关卡用于商业用途，或者未经过任何授权地在其他地方使用MUX2.0中的任何代码。<strong>MaxUnity</strong>拥有对模板代码的所有权，但您仍然可以对其进行修改和个人非商业使用。</p>
-                </div>
-                
-                <p>本模板在版本更新的同时会提供扩展包（例如对多人游戏的扩展，对特定作者发的关卡统一格式的支持、DLRS GAS系统等）</p>
-                
-                <h3>场景设置</h3>
-                <p>主要场景在MainScene下。若您新建了一个场景，您仍然可以通过MaxUnity/Welcome/Setup一键生成最简单的场景预设。</p>
-                
-                <div class="image-row">
-                    <div class="image-col">
-                        <div class="image-container">
-                            <img src="mux2/01.png" alt="Welcome窗口未Setup">
-                            <div class="image-caption">Welcome窗口未Setup</div>
-                        </div>
-                    </div>
-                    <div class="image-col">
-                        <div class="image-container">
-                            <img src="mux2/02.png" alt="Welcome窗口已经Setup">
-                            <div class="image-caption">Welcome窗口已经Setup</div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="image-container">
-                    <img src="mux2/03.png" alt="编辑器主题自定义区域">
-                    <div class="image-caption">编辑器主题自定义区域</div>
-                </div>
-                
-                <p>您可以直接按照Welcome Play中的开始按键开始游戏。Music（音乐）是个可选项，您也可以先不选择任何音乐的情况下Setup（配置）。About中提供了一些支持。</p>
-            </div>
-        </section>
-        <div id="announcement-modal" class="modal-overlay">
-  <div class="modal-box">
-    <button class="modal-close" aria-label="关闭">&times;</button>
-
-    <h2>重要公告</h2>
-    <p>
-        当前模板教程为测试版，<strong>不是最终版！</strong>
-        模板当前也是<strong>测试版</strong>正式版将会在2026发布，但您仍然可以下载体验:<a href="https://chinadlrs.com/app/?id=58">获取测试版</a>
-       前往DLRS获取最新模板。</p>
-    <p>——MaxUnity φ(*￣0￣)</p>
-
-    <div class="modal-footer">
-      <button class="btn-primary" onclick="closeModal()">我知道了</button>
-    </div>
-  </div>
-</div>
-        <!-- 前言 -->
-        <section id="start" class="section">
-            <div class="section-header">
-                <div class="section-number">02</div>
-                <h2 class="section-title">前言</h2>
-            </div>
-            
-            <div class="section-content">
-                <p>本模板旨在提供可玩性的前提下为创作者提供优秀的创造体验，提高创作者的效率，使他们有能力制作出精妙绝伦的关卡。</p>
-                <p>本模板在版本更新的同时同样会提供扩展包（例如对多人游戏的扩展，对特定作者发的关卡统一格式的支持、DLRS GAS系统等）</p>
-                <div class="tip">
-                    <p>本模板基于CC BY-NC-SA 4.0协议。有任何问题请反馈至: mux2report@163.com或者QQ群: 903615252</p>
-                </div>
-            </div>
-        </section>
+    <!-- 项目展示区域 -->
+    <section class="projects-section" id="projects">
+        <div class="section-header">
+            <div class="section-number">01</div>
+            <h2 class="section-title">我的项目</h2>
+        </div>
         
-        <!-- 主要脚本功能 -->
-        <section id="main-scripts" class="section">
-            <div class="section-header">
-                <div class="section-number">03</div>
-                <h2 class="section-title">主要脚本功能说明</h2>
+        <div class="projects-grid">
+            <div class="project-card">
+                <div class="project-content">
+                    <h3 class="project-title">MaxUnityX 2.0</h3>
+                    <p class="project-desc">基于Unity Timeline与URP,为风格独特的饭制提供强大的工具</p>
+                    <div class="project-tags">
+                        <span class="tag">Unity</span>
+                        <span class="tag">C#</span>
+                        <span class="tag">饭制制作</span>
+                    </div>
+                </div>
             </div>
             
-            <div class="section-content">
-                <div class="script-tabs">
-                    <div class="tab-header">
-                        <button class="tab-link active" data-tab="line-mover">LineMover</button>
-                        <button class="tab-link" data-tab="camera-follower">CameraFollower</button>
-                        <button class="tab-link" data-tab="game-controller">GameController</button>
-                        <button class="tab-link" data-tab="collector">Collector</button>
-                    </div>
-                    
-                    <!-- LineMover 标签内容 -->
-
-                    <div id="line-mover" class="tab-content active">
-                        <div class="script-detail">
-                            <h4><i class="fas fa-code"></i> LineMover - 线移动的脚本</h4>
-                            <p>控制线移动和转弯的核心脚本。</p>
-                            
-                            <div class="image-container">
-                                <img src="mux2/04.png" alt="LineMover界面">
-                                <div class="image-caption">LineMover界面</div>
-                            </div>            
-                            <div class="script-tabs">
-                                <div class="tab-header">
-                                    <button class="tab-link" data-tab="LMControls">Controls</button>
-                                    <button class="tab-link" data-tab="LMMovement">Movement</button>
-                                    <button class="tab-link" data-tab="LMAppearance">Appearance</button>
-                                    <button class="tab-link" data-tab="LMPhysics">Physics</button>
-                                    <button class="tab-link" data-tab="LMStatus">Status</button>
-                                </div>
-                           
-                                <div class="script-tabs">
-                                    <div id="LMControls" class="tab-content">
-                                        <div class="image-container">
-                                        <img src="mux2/04_2.png" alt="TurnByData设置">
-                                    <div class="image-caption">TurnByData设置</div>
-                                    </div>
-                                <div class="variable-grid">
-                                    <div class="variable-card">
-                                        <div class="var-name"><i class="fas fa-keyboard"></i> Controls</div>
-                                        <div class="var-desc">控制线转弯的按键，支持多键</div>
-                                    </div>
-                                    <div class="variable-card">
-                                        <div class="var-name"><i class="fas fa-database"></i> Data</div>
-                                        <div class="var-desc">此线的转弯数据</div>
-                                    </div>
-                                    <div class="variable-card">
-                                        <div class="var-name"><i class="fas fa-gamepad"></i> Operational</div>
-                                        <div class="var-desc">是否由玩家可以控制</div>
-                                    </div>
-                                    <div class="variable-card">
-                                        <div class="var-name"><i class="fas fa-play-circle"></i> TurnByData</div>
-                                        <div class="var-desc">是否由Data的数据自动播放（一般不建议用此功能）</div>
-                                    </div>
-                                    <div class="variable-card">
-                                        <div class="var-name"><i class="fas fa-bullseye"></i> Bias</div>
-                                        <div class="var-desc">转弯误差</div>
-                                    </div>
-                                </div>
-                                </div>
-                                <div id="LMMovement" class="tab-content">
-                                <div class="variable-card">
-                                    <div class="var-name"><i class="fas fa-tachometer-alt"></i> Speed</div>
-                                    <div class="var-desc">线移动的速度</div>
-                                </div>
-                                <div class="variable-card">
-                                    <div class="var-name"><i class="fas fa-arrow-right"></i> FirDir</div>
-                                    <div class="var-desc">当前线的朝向</div>
-                                </div>
-                                    <div class="variable-card">
-                                    <div class="var-name"><i class="fas fa-arrow-up"></i> Forward</div>
-                                    <div class="var-desc">下一次线的朝向</div>
-                                </div>
-                                </div>
-                                <div id="LMAppearance" class="tab-content">
-                                <div class="variable-card">
-                                        <div class="var-name"><i class="fa-solid fa-cube"></i> Tail</div>
-                                        <div class="var-desc">线尾部</div>
-                                </div>
-                                <div class="variable-card">
-                                        <div class="var-name">HasTail</div>
-                                        <div class="var-desc">是否有线尾</div>
-                                </div>
-                                <div class="variable-card">
-                                        <div class="var-name">ClickEffect</div>
-                                        <div class="var-desc">点击特效</div>
-                                </div>
-                                <div class="variable-card">
-                                        <div class="var-name">PathColor</div>
-                                        <div class="var-desc">此线的路劲颜色，和Visualaztion的LinePath连用</div>
-                                </div>
-                                <div class="variable-card">
-                                        <div class="var-name">ShowLabel</div>
-                                        <div class="var-desc">是否显示每次点击的时间，和Visualaztion的LinePath连用</div>
-                                </div>
-                                </div>
-                                <div id="LMPhysics" class="tab-content">
-                                <div class="variable-card">
-                                        <div class="var-name">Enable Gravity</div>
-                                        <div class="var-desc">是否启用重力</div>
-                                </div>
-                                <div class="variable-card">
-                                        <div class="var-name">Ph Gravity</div>
-                                        <div class="var-desc">全局重力</div>
-                                </div>
-                                <div class="variable-card">
-                                        <div class="var-name">OnGroundCheckRange</div>
-                                        <div class="var-desc">检测是否在地面的检测范围</div>
-                                </div>
-                                <div class="variable-card">
-                                        <div class="var-name">CheckOnGroundOffset</div>
-                                        <div class="var-desc">检测是否在地面的位置偏移</div>
-                                </div>
-                                </div>
-                                <div id="LMStatus" class="tab-content">
-                                 <div class="variable-card">
-                                        <div class="var-name">OnGround</div>
-                                        <div class="var-desc">线线当前是否在地面上</div>
-                                </div>
-                                </div>
-
-                            </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- CameraFollower 标签内容 -->
-                    <div id="camera-follower" class="tab-content">
-                        <div class="script-detail">
-                            <h4><i class="fas fa-camera"></i> CameraFollower - 相机跟随脚本</h4>
-                            <p>您可以选择使用脚本相机动画或者相机帧动画，两者均支持Timeline对其的控制。</p>
-                            <div class="image-row">
-                                <div class="image-col">
-                                    <div class="image-container">
-                                        <img src="mux2/05.png" alt="CameraFollower基础设置">
-                                        <div class="image-caption">CameraFollower基础设置</div>
-                                    </div>
-                                </div>
-                                <div class="image-col">
-                                    <div class="image-container">
-                                        <img src="mux2/05_2.png" alt="CameraFollower曲线设置">
-                                        <div class="image-caption">CameraFollower曲线设置</div>
-                                    </div>
-                                    <div class="image-container">
-                                        <img src="mux2/05_3.png" alt="CameraFollower震动设置">
-                                        <div class="image-caption">CameraFollower震动设置</div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="script-tabs">
-                                <div class="tab-header">
-                                    <button class="tab-link" data-tab="CFBasic">Basic</button>
-                                    <button class="tab-link" data-tab="CFCurve">Curve</button>
-                                    <button class="tab-link" data-tab="CFShake">Shake</button>
-                                </div>
-                                <div id="CFShake" class="tab-content">
-                                    <div class="variable-card">
-					                    <div class="var-name">ShakePos/RotCurve</div>
-					                    <div class="var-desc">震动曲线</div>
-				                    </div>
-				                    <div class="variable-card">
-					                    <div class="var-name"><i class="fa-sharp-duotone fa-light fa-timer"></i>Duration</div>
-					                    <div class="var-desc">震动持续时间</div>
-				                    </div>
-				                    <div class="variable-card">
-					                    <div class="var-name">Noise</div>
-					                    <div class="var-desc">震动采样贴图</div>
-				                    </div>
-				                    <div class="variable-card">
-					                    <div class="var-name">ShakePos/RotIntensity</div>
-					                    <div class="var-desc">震动强度</div>
-				                    </div>
-				                    <div class="variable-card">
-					                    <div class="var-name">Pos/RotShakeFrequency</div>
-					                    <div class="var-desc">震动频率</div>
-				                    </div>
-                                </div>
-                                <div id="CFBasic" class="tab-content">
-                                    <div class="variable-card">
-                                        <div class="var-name"><i class="fas fa-crosshairs"></i> Target</div>
-                                        <div class="var-desc">跟踪的对象</div>
-                                     </div>
-                                    <div class="variable-card">
-                                        <div class="var-name"><i class="fas fa-eye"></i> Shower</div>
-                                        <div class="var-desc">预览时跟踪的对象（在非Playing模式下的跟踪对象）</div>
-                                     </div>
-                                    <div class="variable-card">
-                                        <div class="var-name"><i class="fas fa-video"></i> Cam</div>
-                                        <div class="var-desc">绑定的相机</div>
-                                    </div>
-                                    <div class="variable-card">
-                                        <div class="var-name"><i class="fas fa-sliders-h"></i> FollowerType</div>
-                                        <div class="var-desc">当前跟踪的模式: 平滑跟踪 | 正常跟踪 | 顶点观察 | 围绕线旋转</div>
-                                    </div>
-                                    <div class="variable-card">
-                                    <div class="var-name">offset</div>
-                                        <div class="var-desc">跟踪时与线的距离差</div>
-                                    </div>
-
-                                    <div class="variable-card">
-                                        <div class="var-name"><i class="fa-solid fa-gauge-high"></i>Speed</div>
-                                        <div class="var-desc">跟踪速度</div>
-                                    </div>
-
-                                    <div class="variable-card">
-                                        <div class="var-name">Rotation Offset</div>
-                                        <div class="var-desc">相机的旋转</div>
-                                    </div>
-
-                                    <div class="variable-card">
-                                        <div class="var-name">[Spanning]Lookat Target</div>
-                                        <div class="var-desc">时刻看向线线</div>
-                                    </div>
-
-                                    <div class="variable-card">
-                                        <div class="var-name"><i class="fa-solid fa-gauge-high"></i>[Spanning]SpanSpeed</div>
-                                        <div class="var-desc">围绕的速度</div>
-                                    </div>
-                                </div>
-                                <div id="CFCurve" class="tab-content">
-                                    <div class="variable-card">
-				                        <div class="var-name">PosCurve</div>
-				                        <div class="var-desc">位置曲线</div>
-			                        </div>
-			                        <div class="variable-card">
-				                        <div class="var-name">RotCurve</div>
-				                        <div class="var-desc">旋转曲线</div>
-			                        </div>
-			                        <div class="variable-card">
-				                        <div class="var-name"><i class="fa-solid fa-gauge"></i>PosCurveSpeed</div>
-				                        <div class="var-desc">采样位置曲线的速度</div>
-			                        </div>
-			                        <div class="variable-card">
-				                        <div class="var-name"><i class="fa-solid fa-gauge"></i>RotCurveSpeed</div>
-				                        <div class="var-desc">采样旋转曲线的速度</div>
-			                        </div>
-			                        <div class="variable-card">
-				                        <div class="var-name">CurveType</div>
-				                        <div class="var-desc">一次循环 | 往返循环 | 循环</div>
-			                        </div>
-                                    <div class="image-container">
-                                        <img src="mux2/05_4.gif" alt="曲线实现的效果">
-                                        <div class="image-caption">曲线实现的效果</div>
-                                    </div>
-                                </div>
-                            </div>
-    
-                            
-                            
-                            
-                        </div>
-                    </div>
-                    
-                    <!-- GameController 标签内容 -->
-                    <div id="game-controller" class="tab-content">
-                        <div class="script-detail">
-                            <h4><i class="fas fa-gamepad"></i> GameController - 游戏控制中心</h4>
-                            <p>游戏的核心控制脚本，负责管理游戏状态和全局设置。</p>
-                            
-                            <div class="image-row">
-                                <div class="image-col">
-                                    <div class="image-container">
-                                        <img src="mux2/06.png" alt="GameController设置">
-                                        <div class="image-caption">GameController设置</div>
-                                    </div>
-                                </div>
-                                <div class="image-col">
-                                    <div class="image-container">
-                                        <img src="mux2/06_2.png" alt="GameController设置2">
-                                        <div class="image-caption">GameController设置2</div>
-                                    </div>
-                                    <div class="image-container">
-                                        <img src="mux2/06_3.png" alt="GameController设置3">
-                                        <div class="image-caption">GameController设置3</div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="variable-grid">
-                                <div class="variable-card">
-                                    <div class="var-name"><i class="fas fa-info-circle"></i> GameStatus</div>
-                                    <div class="var-desc">游戏状态：准备开始游戏 | 开始游戏 | 游戏结束</div>
-                                </div>
-                                <div class="variable-card">
-                                    <div class="var-name"><i class="fas fa-map-marker-alt"></i> SceneID/CurrScnenName</div>
-                                    <div class="var-desc">当前关卡场景的名字</div>
-                                </div>
-                                <div class="variable-card">
-                                    <div class="var-name"><i class="fas fa-percentage"></i> Percentage</div>
-                                    <div class="var-desc">关卡进度百分比</div>
-                                </div>
-                                <div class="variable-card">
-                                    <div class="var-name"><i class="fas fa-gem"></i> GemMax</div>
-                                    <div class="var-desc">钻石最多数量</div>
-                                </div>
-                                <div class="variable-card">
-                                    <div class="var-name"><i class="fas fa-crown"></i> CrownMax</div>
-                                    <div class="var-desc">皇冠最多数量</div>
-                                </div>
-                                <div class="variable-card">
-                                    <div class="var-name"><i class="fas fa-keyboard"></i> HotKey</div>
-                                    <div class="var-desc">快捷键设置：重新开始游戏按键、开始游戏的快捷键等</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- Collector 标签内容 -->
-                    <div id="collector" class="tab-content">
-                        <div class="script-detail">
-                            <h4><i class="fas fa-star"></i> Collector - 收集系统</h4>
-                            <p>皇冠、钻石和复活点都是继承于Collector但设置不同。</p>
-                            
-                            <div class="image-row">
-                                <div class="image-col">
-                                    <div class="image-container">
-                                        <img src="mux2/07.png" alt="钻石或皇冠的设置">
-                                        <div class="image-caption">钻石或皇冠的设置</div>
-                                    </div>
-                                </div>
-                                <div class="image-col">
-                                    <div class="image-container">
-                                        <img src="mux2/07_2.png" alt="复活点设置">
-                                        <div class="image-caption">复活点设置</div>
-                                    </div>
-                                </div>
-                            </div>
-                            
-                            <div class="variable-grid">
-                                <div class="variable-card">
-                                    <div class="var-name"><i class="fas fa-clock"></i> Delay</div>
-                                    <div class="var-desc">删除特效的延迟</div>
-                                </div>
-                                <div class="variable-card">
-                                    <div class="var-name"><i class="fas fa-magic"></i> Effect</div>
-                                    <div class="var-desc">收集特效</div>
-                                </div>
-                                <div class="variable-card">
-                                    <div class="var-name"><i class="fas fa-map-marker-alt"></i> RevivalPos</div>
-                                    <div class="var-desc">复活点的位置，不设置默认为触发器的位置（可见红色Gizmos方块）</div>
-                                </div>
-                                <div class="variable-card">
-                                    <div class="var-name"><i class="fas fa-cube"></i> ItemType</div>
-                                    <div class="var-desc">设置收集物类型（皇冠、钻石、复活点等）</div>
-                                </div>
-                            </div>
-                        </div>
+            <div class="project-card">
+                <div class="project-content">
+                    <h3 class="project-title">独立动画</h3>
+                    <p class="project-desc">自主设计的原创动画，寻共鸣感化内心，用视觉审判世界。</p>
+                    <div class="project-tags">
+                        <span class="tag">动画</span>
+                        <span class="tag">原创</span>
                     </div>
                 </div>
-            </div>
-        </section>
-        
-        <!-- 主要效果实现 -->
-        <section id="main-functions" class="section">
-            <div class="section-header">
-                <div class="section-number">04</div>
-                <h2 class="section-title">主要效果实现</h2>
             </div>
             
-            <div class="section-content">
-                <div class="script-tabs">
-                    <div class="tab-header">
-                        <button class="tab-link active" data-tab="guide-line">引导线</button>
-                        <button class="tab-link" data-tab="visualization">可视化篇</button>
-                        <button class="tab-link" data-tab="dynamic-path">动态路径展示</button>
-                        <button class="tab-link" data-tab="sound">采音</button>
-                        <button class="tab-link" data-tab="scene-control">场景与动画控制</button>
-                        <button class="tab-link" data-tab="dual-line">双线的实现</button>
-                    </div>
-                    
-                    <!-- 引导线 -->
-                    <div id="guide-line" class="tab-content active">
-                        <div class="script-detail">
-                            <h4><i class="fas fa-road"></i> 引导线系统</h4>
-                            <p>帮助玩家预判路径的引导系统。</p>
-                            
-                            <div class="image-container">
-                                <img src="mux2/08.png" alt="引导线窗口">
-                                <div class="image-caption">引导线窗口</div>
-                            </div>
-                            
-                            <div class="variable-grid">
-                                <div class="variable-card">
-                                    <div class="var-name"><i class="fas fa-sort"></i> SortGuideTap</div>
-                                    <div class="var-desc">根据位置排列GuideTap</div>
-                                </div>
-                                <div class="variable-card">
-                                    <div class="var-name"><i class="fas fa-road"></i> LongLine</div>
-                                    <div class="var-desc">是否生成长线引导风格</div>
-                                </div>
-                                <div class="variable-card">
-                                    <div class="var-name"><i class="fas fa-cube"></i> Prefab</div>
-                                    <div class="var-desc">引导线预制体</div>
-                                </div>
-                                <div class="variable-card">
-                                    <div class="var-name"><i class="fas fa-ruler"></i> Gap</div>
-                                    <div class="var-desc">每个引导线间的间距</div>
-                                </div>
-                            </div>
-                            
-                            <div class="warning">
-                                <p><strong>注意：</strong>避免在曲折路径上使用引导线系统</p>
-                                <div class="image-row">
-                                    <div class="image-col">
-                                        <div class="image-container">
-                                            <img src="mux2/08_2.png" alt="曲折路径示例1">
-                                            <div class="image-caption">曲折路径示例</div>
-                                        </div>
-                                    </div>
-                                    <div class="image-col">
-                                        <div class="image-container">
-                                            <img src="mux2/08_3.png" alt="曲折路径示例2">
-                                            <div class="image-caption">曲折路径示例</div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- 可视化篇 -->
-                    <div id="visualization" class="tab-content">
-                        <div class="script-detail">
-                            <h4><i class="fas fa-eye"></i> 可视化工具</h4>
-                            <p>提供多种可视化调试工具，帮助开发者更好地设计关卡。</p>
-                            
-                            <div class="image-container">
-                                <img src="mux2/09.png" alt="可视化主脚本">
-                                <div class="image-caption">可视化主脚本</div>
-                            </div>
-                            
-                            <div class="script-tabs">
-                                <div class="tab-header">
-                                    <button class="tab-link active" data-tab="line-path">LinePath</button>
-                                    <button class="tab-link" data-tab="ingame-debug">InGameDebug</button>
-                                    <button class="tab-link" data-tab="anim-path">AnimPath</button>
-                                    <button class="tab-link" data-tab="camera-attach">CameraAttach</button>
-                                    <button class="tab-link" data-tab="breakpoint">BreakPoint</button>
-                                </div>
-                                
-                                <!-- LinePath -->
-                                <div id="line-path" class="tab-content active">
-                                    <div class="image-container">
-                                        <img src="mux2/09_2.png" alt="LinePath设置">
-                                        <div class="image-caption">LinePath设置</div>
-                                    </div>
-                                    
-                                    <div class="image-container">
-                                        <img src="mux2/09_3.png" alt="LinePath效果">
-                                        <div class="image-caption">LinePath效果</div>
-                                    </div>
-                                </div>
-                                
-                                <!-- InGameDebug -->
-                                <div id="ingame-debug" class="tab-content">
-                                    <div class="image-container">
-                                        <img src="mux2/09_4.png" alt="游戏内调试设置">
-                                        <div class="image-caption">游戏内调试设置</div>
-                                    </div>
-                                    
-                                    <div class="image-container">
-                                        <img src="mux2/09_5.png" alt="调试效果">
-                                        <div class="image-caption">调试效果</div>
-                                    </div>
-                                </div>
-                                
-                                <!-- AnimPath -->
-                                <div id="anim-path" class="tab-content">
-                                    <div class="image-container">
-                                        <img src="mux2/09_6.png" alt="AnimPath设置">
-                                        <div class="image-caption">AnimPath设置</div>
-                                    </div>
-                                    
-                                    <div class="image-container">
-                                        <img src="mux2/07.png" alt="AnimationTrack设置">
-                                        <div class="image-caption">AnimationTrack的Inspector窗口</div>
-                                    </div>
-                                    
-                                    <div class="image-container">
-                                        <img src="mux2/09_8.png" alt="AnimPath效果">
-                                        <div class="image-caption">AnimPath效果</div>
-                                    </div>
-                                </div>
-                                
-                                <!-- CameraAttach -->
-                                <div id="camera-attach" class="tab-content">
-                                    <div class="image-container">
-                                        <img src="mux2/10.png" alt="CameraAttachment设置">
-                                        <div class="image-caption">CameraAttachment设置</div>
-                                    </div>
-                                    
-                                    <p>启用后Scene窗口的视角将会和Game视角同步。</p>
-                                </div>
-                                
-                                <!-- BreakPoint -->
-                                <div id="breakpoint" class="tab-content">
-                                    <div class="note">
-                                        <p><strong>提示：</strong>首先确保LinePath启用</p>
-                                    </div>
-                                    
-                                    <div class="image-container">
-                                        <img src="mux2/11.png" alt="BreakPoint设置">
-                                        <div class="image-caption">BreakPoint设置</div>
-                                    </div>
-                                    
-                                    <div class="image-container">
-                                        <img src="mux2/11_2.png" alt="断点选择界面">
-                                        <div class="image-caption">断点选择</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- 动态路径展示 -->
-                    <div id="dynamic-path" class="tab-content">
-                        <div class="script-detail">
-                            <h4><i class="fas fa-project-diagram"></i> 动态路径展示</h4>
-                            <p>在时间轴上动态展示路径轨迹。</p>
-                            
-                            <div class="image-container">
-                                <img src="mux2/12.png" alt="LinePathShower设置">
-                                <div class="image-caption">LinePathShower设置</div>
-                            </div>
-                            
-                            <div class="image-container">
-                                <img src="mux2/12_2.png" alt="添加轨道">
-                                <div class="image-caption">添加轨道</div>
-                            </div>
-                            
-                            <div class="image-container">
-                                <img src="mux2/12_3.gif" alt="动态路径效果">
-                                <div class="image-caption">动态路径效果</div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- 采音 -->
-                    <div id="sound" class="tab-content">
-                        <div class="script-detail">
-                            <h4><i class="fas fa-music"></i> 采音系统</h4>
-                            <p>根据音乐节奏生成路径点的工具。</p>
-                            
-                            <div class="script-tabs">
-                                <div class="tab-header">
-                                    <button class="tab-link active" data-tab="road-maker">铺路机</button>
-                                    <button class="tab-link" data-tab="sound-recorder">采音机</button>
-                                </div>
-                                
-                                <!-- 铺路机 -->
-                                <div id="road-maker" class="tab-content active">
-                                    <div class="image-container">
-                                        <img src="mux2/13.png" alt="静态铺路设置">
-                                        <div class="image-caption">静态铺路</div>
-                                    </div>
-                                    
-                                    <div class="image-container">
-                                        <img src="mux2/13_2.png" alt="录制LineData">
-                                        <div class="image-caption">录制LineData</div>
-                                    </div>
-                                    
-                                    <div class="note">
-                                        <p><strong>注意：</strong>每次关闭Unity LineData的内容都会被清空，您可以通过LineDataWindow将LineData存储至txt文件中</p>
-                                    </div>
-                                    
-                                    <div class="image-row">
-                                        <div class="image-col">
-                                            <div class="image-container">
-                                                <img src="mux2/13_3.png" alt="打开LineDataWindow">
-                                                <div class="image-caption">打开LineDataWindow</div>
-                                            </div>
-                                        </div>
-                                        <div class="image-col">
-                                            <div class="image-container">
-                                                <img src="mux2/13_4.png" alt="提取LineData">
-                                                <div class="image-caption">从一个Lindata提取一部分到另一个LineData</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                    
-                                    <div class="image-row">
-                                        <div class="image-col">
-                                            <div class="image-container">
-                                                <img src="mux2/13_5.png" alt="合并LineData">
-                                                <div class="image-caption">将两个LineData合并到一个LineData</div>
-                                            </div>
-                                        </div>
-                                        <div class="image-col">
-                                            <div class="image-container">
-                                                <img src="mux2/13_6.png" alt="读写LineData">
-                                                <div class="image-caption">读入读出LineData</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                                <!-- 采音机 -->
-                                <div id="sound-recorder" class="tab-content">
-                                    <div class="warning">
-                                        <p><strong>注意：</strong>此功能还在测试阶段，对性能要求较高，不建议拖入音质较高或过长的音频，后续会进行优化</p>
-                                    </div>
-                                    
-                                    <div class="image-container">
-                                        <img src="mux2/14.gif" alt="拖入音频">
-                                        <div class="image-caption">拖入音频</div>
-                                    </div>
-                                    
-                                    <div class="image-container">
-                                        <img src="mux2/14_2.png" alt="基础设置">
-                                        <div class="image-caption">基础设置</div>
-                                    </div>
-                                    
-                                    <div class="image-container">
-                                        <img src="mux2/14_3.png" alt="采音设置">
-                                        <div class="image-caption">采音设置</div>
-                                    </div>
-                                    
-                                    <div class="image-container">
-                                        <img src="mux2/14_4.png" alt="Beat检测">
-                                        <div class="image-caption">Beat检测</div>
-                                    </div>
-                                    <div class="image-container">
-                                        <img src="mux2/14_5.gif" alt="BeatThreshold控制">
-                                        <div class="image-caption">BeatThreshold控制</div>
-                                    </div>
-                                    <div class="image-container">
-                                        <img src="mux2/14_6.gif" alt="循环区间设置">
-                                        <div class="image-caption">循环区间设置</div>
-                                    </div>
-                                    <div class="image-container">
-                                        <img src="mux2/14_7.gif" alt="具体操作">
-                                        <div class="image-caption">具体操作</div>
-                                    </div>
-                                    <div class="image-container">
-                                        <img src="mux2/14_8.gif" alt="采音操作">
-                                        <div class="image-caption">采音操作</div>
-                                    </div>
-                                    <div class="image-container">
-                                        <img src="mux2/14_9.png" alt="LineData设置">
-                                        <div class="image-caption">LineData设置</div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- 场景与动画控制 -->
-                    <div id="scene-control" class="tab-content">
-                        <div class="script-detail">
-                            <h4><i class="fas fa-film"></i> 场景与动画控制</h4>
-                            <p>通过自定义轨道控制场景元素和动画。</p>
-                            
-                            <div class="image-container">
-                                <img src="mux2/15.png" alt="创建自定义轨道">
-                                <div class="image-caption">创建自定义轨道</div>
-                            </div>
-                            
-                            <div class="script-tabs">
-                                <div class="tab-header">
-                                    <button class="tab-link active" data-tab="general">通用</button>
-                                    <button class="tab-link" data-tab="subtitle">SubtitleTrack</button>
-                                    <button class="tab-link" data-tab="camera-line">CameraTrack & LineTrack</button>
-                                </div>
-                                
-                                <!-- 通用 -->
-                                <div id="general" class="tab-content active">
-                                    <div class="image-container">
-                                        <img src="mux2/15_2.png" alt="通用轨道设置">
-                                        <div class="image-caption">通用轨道设置</div>
-                                    </div>
-                                    
-                                    <div class="tip">
-                                        <div class="image-container">
-                                        <img src="mux2/15_3.png" alt="参数启用">
-                                        <div class="image-caption">参数启用</div>
-                                        </div>
-                                        <p><strong>提示：</strong>只有前方的选项勾选，才会对这一项进行改变。</p>
-                                    </div>
-                                    
-                                    <div class="image-container">
-                                        <img src="mux2/15_4.png" alt="直接混合示例">
-                                        <div class="image-caption">直接混合</div>
-                                    </div>
-                                    
-                                    <div class="image-container">
-                                        <img src="mux2/15_5.png" alt="间接混合示例">
-                                        <div class="image-caption">间接混合</div>
-                                    </div>
-                                </div>
-                                
-                                <!-- SubtitleTrack -->
-                                <div id="subtitle" class="tab-content">
-                                    <div class="image-container">
-                                        <img src="mux2/15_6.png" alt="SubtitleTrack设置">
-                                        <div class="image-caption">SubtitleTrack设置</div>
-                                    </div>
-                                    
-                                    <div class="image-container">
-                                        <img src="mux2/15_7.png" alt="添加Subtitle轨道">
-                                        <div class="image-caption">添加Subtitle轨道</div>
-                                    </div>
-                                    
-                                    <div class="image-container">
-                                        <img src="mux2/15_8.png" alt="获取字幕信息">
-                                        <div class="image-caption">获取信息</div>
-                                    </div>
-                                    
-                                    <div class="image-container">
-                                        <img src="mux2/15_9.png" alt="歌词文件格式">
-                                        <div class="image-caption">歌词文件格式</div>
-                                    </div>
-                                </div>
-                                
-                                <!-- CameraTrack & LineTrack -->
-                                <div id="camera-line" class="tab-content">
-                                    <div class="image-container">
-                                        <img src="mux2/15_10.png" alt="CameraTrack设置">
-                                        <div class="image-caption">CameraTrack设置</div>
-                                    </div>
-                                    
-                                    <div class="image-container">
-                                        <img src="mux2/15_11.png" alt="Viewport控制">
-                                        <div class="image-caption">控制相机的Viewport</div>
-                                    </div>
-                                    
-                                    <div class="image-container">
-                                        <img src="mux2/15_12.png" alt="获取帧信息">
-                                        <div class="image-caption">获取当前帧信息</div>
-                                    </div>
-                                    
-                                    <div class="note">
-                                        <p>对于这些Track，您可以通过按钮直接获取当前帧的信息，方便您加快动画设计。</p>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    
-                    <!-- 双线的实现 -->
-                    <div id="dual-line" class="tab-content">
-                        <div class="script-detail">
-                            <h4><i class="fas fa-code-branch"></i> 双线的实现</h4>
-                            <p>在游戏中实现多条路径线的切换。</p>
-                            
-                            <div class="image-container">
-                                <img src="mux2/16.png" alt="创建Signal Emitter">
-                                <div class="image-caption">创建Signal Emitter</div>
-                            </div>
-                            
-                            <div class="image-container">
-                                <img src="mux2/16_2.png" alt="创建Signal">
-                                <div class="image-caption">创建Signal</div>
-                            </div>
-                            
-                            <div class="image-container">
-                                <img src="mux2/16_3.png" alt="选择线线">
-                                <div class="image-caption">选择线线</div>
-                            </div>
-                            
-                            <div class="image-container">
-                                <img src="mux2/16_4.png" alt="选择方法">
-                                <div class="image-caption">选择方法 (16_4.png)</div>
-                            </div>
-                            
-                            <div class="tip">
-                                <p><strong>提示：</strong>新建线时别忘了在GameController的Lines添加</p>
-                            </div>
-                        </div>
+            <div class="project-card">
+                <div class="project-content">
+                    <h3 class="project-title">Unity插件</h3>
+                    <p class="project-desc">一系列实用的Unity插件，简化开发流程、提升工作效率、适用于各种类型的项目。</p>
+                    <div class="project-tags">
+                        <span class="tag">插件</span>
+                        <span class="tag">工具</span>
+                        <span class="tag">效率</span>
                     </div>
                 </div>
             </div>
-        </section>
-        
-        <!-- 更多 -->
-        <section id="more" class="section">
-            <div class="section-header">
-                <div class="section-number">05</div>
-                <h2 class="section-title">更多</h2>
-            </div>
-            
-            <div class="section-content">
-                <div class="content-block">
-                    <h4>游戏结束与快捷键</h4>
-                    <ol>
-                        <li>若想要线线碰撞到物体死亡，则需给那个物体添加Obstacle标签（可以用此做空气墙）</li>
-                        <li>若想结束游戏的话，则需添加EndTrigger或者在Timeline上添加一个Signal Emitter选择GameController的GameOver方法（那个Bool选择为true）</li>
-                        <li>Alt+F可以快速启用Camera Attachment</li>
-                        <li>Shift+G可以快速锁定（选中）GameController</li>
-                        <li>Ctrl+L可以快速锁定（选中）MainLine</li>
-                    </ol>
-                </div>
-                
-                <div class="content-block">
-                    <h4>致谢与协议</h4>
-                    <p>衷心感谢您使用MUX2.0制作饭制。希望您能用此创造出无与伦比的关卡，当然创作的质量与模板关系不大，更重要的是创意和能力，冰焰模板、4125、狗带模板等都是极其优秀的模板并且都能实现与此模板同样的效果，唯一的区别在于个人是否能够充分利用他们，相信通过您的努力，您也能创作出和大佬们一样的关卡，加油把！(o゜▽゜)o☆</p>
-                    
-                    <div class="note">
-                        <p>本模板基于：<strong>CC BY-NC-SA 4.0协议</strong></p>
-                        <p>有任何问题请反馈至:mux2report@163.com 或者QQ群: 903615252</p>
-                    </div>
-                    
-                    <div class="image-container">
-                        <img src="mux2/Cover.png" alt="MaxUnityX社区">
-                    </div>
-                </div>
-            </div>
-        </section>
-    </div>
-    
+        </div>
+    </section>
+
     <!-- 页脚 -->
     <footer>
         <div class="footer-content">
-            <div class="footer-column">
-                <h3>关于 MaxUnityX</h3>
-                <p>MaxUnityX 2.0是一个基于Unity Timeline的跳舞的线同人游戏模板，为创作者提供强大的可视化编辑和特效控制工具。</p>
+            <div class="footer-about">
+                <h3>关于我</h3>
+                <p>我是一名热爱创造的开发者和设计师，同时也是一名信竞生，如果你有问题欢迎来找我(～￣▽￣)～</p>
                 <div class="social-links">
                     <a href="https://space.bilibili.com/1481923622"><i class="fa-brands fa-bilibili"></i></a>
                     <a href="https://assetstore.unity.com/publishers/104615"><i class="fa-brands fa-unity"></i></a>
                 </div>
             </div>
             
-            <div class="footer-column">
-                <h3>快速链接</h3>
-                <ul>
-                    <li><a href="#getting-started">开始使用</a></li>
-                    <li><a href="#start">前言</a></li>
-                    <li><a href="#main-scripts">主要脚本功能</a></li>
-                    <li><a href="#main-functions">主要效果实现</a></li>
-                    <li><a href="#more">更多</a></li>
-                </ul>
+            <div class="footer-contact">
+                <h3>联系我</h3>
+                <p>邮箱: maxunitycontact@163.com</p>
+                <p>QQ: 3260518759</p>
             </div>
         </div>
         
         <div class="copyright">
-            <p>&copy; 2025 MaxUnityX 2.0. 保留所有权利。</p>
-            <p>Unity是Unity Technologies的商标。本模板与Unity Technologies无隶属关系。</p>
+            &copy; 2025 MaxUnity. 保留所有权利.
         </div>
     </footer>
 
     <script>
-        window.addEventListener('scroll', function() {
-            const navbar = document.querySelector('.navbar');
-            if (window.scrollY > 50) {
-                navbar.classList.add('scrolled');
-            } else {
-                navbar.classList.remove('scrolled');
-            }
-        });
-        
-        // 平滑滚动
-        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-            anchor.addEventListener('click', function(e) {
-                e.preventDefault();
-                const target = document.querySelector(this.getAttribute('href'));
-                if (target) {
-                    window.scrollTo({
-                        top: target.offsetTop - 80,
-                        behavior: 'smooth'
-                    });
-                    
-                    // 更新活动导航链接
-                    document.querySelectorAll('.nav-links a').forEach(link => {
-                        link.classList.remove('active');
-                    });
-                    this.classList.add('active');
+        document.addEventListener('DOMContentLoaded', function() {
+            const currentPath = window.location.pathname.split('/').pop();
+            const navLinks = document.querySelectorAll('.nav-tabs .tab-link');
+            
+            navLinks.forEach(link => {
+                const href = link.getAttribute('href');
+                if (href === currentPath || (currentPath === '' && href === 'index.html')) {
+                    link.classList.add('active');
+                } else {
+                    link.classList.remove('active');
                 }
             });
+            
+            // 背景图片轮播
+            const backgrounds = [
+                'mux2/cover03.png',
+            ];
+            
+            let currentIndex = 0;
+            const bgElement = document.querySelector('.video-background img');
+            
+            setInterval(() => {
+                currentIndex = (currentIndex + 1) % backgrounds.length;
+                bgElement.src = backgrounds[currentIndex];
+            }, 5000); // 每5秒切换一张图片
         });
-        document.querySelectorAll('.inner').forEach(btn =>
-  btn.addEventListener('click', function () {
-    const pane = this.closest('.');
-    const id   = this.dataset.tab;
-
-    pane.querySelectorAll('.inner').forEach(b => b.classList.remove('active'));
-    pane.querySelectorAll('.tabcontentinner').forEach(c => c.classList.remove('active'));
-
-    this.classList.add('active');
-    document.getElementById(id)?.classList.add('active');
-  })
-);
-        // 选项卡功能
-        document.querySelectorAll('.tab-link:not(.inner)').forEach(tab => {
-            tab.addEventListener('click', function() {
-                const tabId = this.getAttribute('data-tab');
-                const tabContainer = this.closest('.script-tabs');
-                
-                // 更新活动选项卡
-                tabContainer.querySelectorAll('.tab-link').forEach(t => {
-                    t.classList.remove('active');
-                });
-                this.classList.add('active');
-                
-                // 显示对应内容
-                tabContainer.querySelectorAll('.tab-content').forEach(content => {
-                    content.classList.remove('active');
-                });
-                document.getElementById(tabId).classList.add('active');
-            });
-        });
-        
-        // 页面加载时激活对应部分
-        window.addEventListener('load', function() {
-            if (window.location.hash) {
-                const target = document.querySelector(window.location.hash);
-                if (target) {
-                    window.scrollTo({
-                        top: target.offsetTop - 100,
-                        behavior: 'smooth'
-                    });
-                }
-            }
-        });
-        window.addEventListener('DOMContentLoaded', () => {
-  const modal = document.getElementById('announcement-modal');
-  modal.style.display = 'flex';
-});
-
-/* 关闭弹窗 */
-function closeModal(){
-  const modal = document.getElementById('announcement-modal');
-  modal.style.animation = 'fadeOut .3s ease forwards';
-  modal.addEventListener('animationend', () => modal.remove(), {once:true});
-}
-document.querySelector('.modal-close').addEventListener('click', closeModal);
     </script>
 </body>
-
 </html>
-
